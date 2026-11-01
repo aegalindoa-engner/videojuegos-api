@@ -1,54 +1,71 @@
-# API REST de Videojuegos
+# API REST de Videojuegos con persistencia (CRUD)
 
-API REST básica desarrollada con Java y Spring Boot para la actividad colaborativa #1 de Lenguaje de Programación III. Permite consultar y registrar videojuegos. Los datos se guardan en memoria, sin base de datos.
+API REST desarrollada con Java y Spring Boot para la Actividad Colaborativa #2 de Lenguaje de Programación III. Permite crear, consultar, actualizar y eliminar videojuegos, guardando la información en una base de datos H2 mediante JPA e Hibernate.
 
-**Autor:** [Tu nombre completo]
+## Contexto
 
-## Requisitos
+Catálogo de videojuegos. Cada videojuego tiene título, género, plataforma y año de lanzamiento.
 
-- JDK 17 o superior
-- Maven (incluido en el proyecto mediante `mvnw`)
+## Integrantes
 
-## Cómo ejecutarlo
+- Andrés Galindo (trabajo individual)
 
-1. Clona el repositorio o descarga el código.
-2. Abre la carpeta en VS Code (o en otro IDE).
-3. Ejecuta la clase `VideojuegosApiApplication`, o desde la terminal:
+## Tecnologías utilizadas
+
+- Java
+- Spring Boot (Spring Web)
+- Spring Data JPA e Hibernate
+- Base de datos H2 (en memoria)
+- Maven
+
+## Cómo ejecutar el proyecto
+
+1. Clonar el repositorio o descargar el código.
+2. Abrir la carpeta en VS Code o en otro IDE con Java 17 o superior.
+3. Ejecutar la clase `VideojuegosApiApplication`, o desde la terminal:
 
 ```
 ./mvnw spring-boot:run
 ```
 
-En Windows puedes usar `mvnw.cmd spring-boot:run`.
+En Windows se puede usar `mvnw.cmd spring-boot:run`.
 
-4. El servidor queda disponible en `http://localhost:8080`.
+4. La API queda disponible en `http://localhost:8080`.
 
-## Endpoints
+Nota: la base de datos H2 es en memoria, por lo que los datos se borran al reiniciar la aplicación.
 
-| Método | Ruta | Descripción |
-|---|---|---|
-| GET | `/videojuegos` | Lista todos los videojuegos |
-| GET | `/videojuegos/{id}` | Busca un videojuego por su id (PathVariable) |
-| GET | `/videojuegos/buscar?genero=Deportes` | Filtra por género (RequestParam) |
-| POST | `/videojuegos` | Agrega un videojuego enviando JSON (RequestBody) |
+## Endpoints principales
 
-### Ejemplo de JSON para el POST
+| Método | Ruta | Descripción | Respuesta |
+|---|---|---|---|
+| POST | `/videojuegos` | Crea un videojuego | 201 Created |
+| GET | `/videojuegos` | Lista todos los videojuegos | 200 OK |
+| GET | `/videojuegos/{id}` | Consulta un videojuego por id | 200 OK o 404 Not Found |
+| PUT | `/videojuegos/{id}` | Actualiza un videojuego | 200 OK o 404 Not Found |
+| DELETE | `/videojuegos/{id}` | Elimina un videojuego | 204 No Content o 404 Not Found |
+| GET | `/videojuegos/buscar?genero=Deportes` | Consulta personalizada por género | 200 OK |
+
+## Ejemplo
+
+Solicitud `POST /videojuegos`:
 
 ```json
 {
-  "titulo": "Minecraft",
-  "genero": "Sandbox",
-  "plataforma": "PC",
-  "anio": 2011
+  "titulo": "FIFA 23",
+  "genero": "Deportes",
+  "plataforma": "PlayStation 5",
+  "anio": 2022
 }
 ```
 
-## Códigos de respuesta
+Respuesta `201 Created`:
 
-- `200 OK`: la consulta se realizó correctamente.
-- `201 Created`: el videojuego fue creado.
-- `404 Not Found`: no existe un videojuego con ese id.
-
-## Tecnologías
-
-Java, Spring Boot, Maven.
+```json
+{
+  "id": 1,
+  "titulo": "FIFA 23",
+  "genero": "Deportes",
+  "plataforma": "PlayStation 5",
+  "anio": 2022
+}
+```
